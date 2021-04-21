@@ -91,7 +91,13 @@ count(uniq:senders)
   {
    "title": "Exchange",
    "type": "string",
-   "path": "exchange.name",
+   "path": "address.name",
+    "style": "width: 100px",
+  },
+     {
+   "title": "",
+   "type": "string",
+   "path": "address.annotation",
     "style": "width: 100px",
   },
   {
@@ -106,13 +112,64 @@ count(uniq:senders)
    "path": "count",
     "style": "width: 200px",
   },
+ ]
+});
+    query.request();
+    })();
+  </script>
+  
+     <script>
+      (function() {
+   widgets.init('https://graphql.bitquery.io', '', {
+     locale: 'en',
+     theme: 'light'
+   });
+   var query = new widgets.query(`
+
+{ethereum(network:ethereum){
+  dexTrades(date:{since:"2021-03-20"}
+    options:{desc:"count",limit:10}
+){
+   
+    exchange{name
+    address{
+      annotation
+      sc:address
+    }}
+count(uniq:senders)
+  }
+}}
+`);
+    var wdts = new widgets.table('#eth_top_address', query, 'ethereum.dexTrades', {
+ "title": "ETH Top 10 AMMs by Active Address",
+ "dataOptions": [
   {
-   "title": "Trade Amt",
+   "title": "Exchange",
+   "type": "string",
+   "path": "exchange.name",
+    "style": "width: 100px",
+  },
+    {
+   "title": "",
+   "type": "string",
+   "path": "address.annotation",
+    "style": "width: 100px",
+  },
+  {
+   "title": "Exchange Address",
+   "type": "string-ellipsis",
+   "path": "exchange.sc",
+    "style": "width: 400px"
+  },
+  {
+   "title": "Total Uniq Address",
    "type": "amount",
-   "path": "Total_amt",
+   "path": "count",
+    "style": "width: 200px",
   }
  ]
 });
     query.request();
     })();
   </script>
+  </html>
