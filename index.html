@@ -1,1 +1,118 @@
-<h>Hello</h>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BSC Top AMMs</title>
+    <link
+      rel="stylesheet"
+      media="all"
+      href="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.8/dist/assets/css/widgets.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.8/dist/widgets.js"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            ></script>
+     <style></style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row" style="margin-top:20px; margin-bottom:20px">
+        <div class="col">
+          <div class="d-flex justify-content-center"  style="color: #E67E22;font-size: x-large; font-weight: bold;" >
+          Top 10 Amms (BSC & ETH)
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:20px; margin-bottom:20px">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-center" style="font-weight: bold;">
+            BSC Top 10 AMMs by Active Address
+          </div>
+          <div id="bsc_top_address"></div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:20px; margin-bottom:20px">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-center" style="font-weight: bold;">
+            ETH Top 10 AMMs by Active Address
+          </div>
+          <div id="bsc_top_address"></div>
+        </div>
+      </div>
+       <div class="row" style="margin-top:30px; margin-bottom:30px">
+        <div class="col">
+          <div class="d-flex justify-content-end">
+            <a href="https://explorer.bitquery.io/bsc/smart_contract/0xbcfccbde45ce874adcb698cc183debcf17952812">
+              <img
+                src="https://lh3.googleusercontent.com/gLUJmZaNklu79UkRHR5oHP5eOP6NiRBXoP7mk36LHul-41QqZuh2NVYV_sSN6JLczaPmLO5ZVqZPNFMtPw4JhVR78ctqmJGADPyOlp8pG6r_4J1c4UbQ0aQcA2zneUikWJ3kThGX"
+                style="height: 30px;"
+            /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+      <nav>
+      <a href="https://alichef000.github.io">Main Page</a> |
+      <a href="https://alichef000.github.io/Top_50">Top Tradings</a> |
+      <a href="https://alichef000.github.io/competitor">Competitors</a> |
+      <a href="https://alichef000.github.io/top_amm">Top AMMs</a> |
+      </nav>
+  </body>
+  
+   <script>
+      (function() {
+   widgets.init('https://graphql.bitquery.io', '', {
+     locale: 'en',
+     theme: 'light'
+   });
+   var query = new widgets.query(`
+
+{ethereum(network:bsc){
+  dexTrades(date:{since:"2021-03-20"}
+    options:{desc:"count",limit:10}
+){
+   
+    exchange{name
+    address{
+      annotation
+      sc:address
+    }}
+count(uniq:senders)
+  }
+}}
+`);
+    var wdts = new widgets.table('#top_tokens', query, 'ethereum.dexTrades', {
+ "title": "BSC Top 10 AMMs by Active Address",
+ "dataOptions": [
+  {
+   "title": "Exchange",
+   "type": "string",
+   "path": "exchange.name",
+    "style": "width: 100px",
+  },
+  {
+   "title": "Exchange Address",
+   "type": "string-ellipsis",
+   "path": "exchange.sc",
+    "style": "width: 400px"
+  },
+  {
+   "title": "Total Uniq Address",
+   "type": "amount",
+   "path": "count",
+    "style": "width: 200px",
+  },
+  {
+   "title": "Trade Amt",
+   "type": "amount",
+   "path": "Total_amt",
+  }
+ ]
+});
+    query.request();
+    })();
+  </script>
